@@ -1,16 +1,12 @@
 /**
- * WebSocket server for static http server
- * Connection: var socket = new WebSocket("ws:// address : port")
- * Get messages: socket.onmessage = function(data) {}
- * Post message: socket.send('sample data')
- * Check WebSockets rules: (window.WebSocket)
+ * Created by Ravy on 17.03.2017.
  */
-
 'use strict';
 const WebSocketServer = new require('ws');
 
 var clients = {}, // подключенные клиенты
     socketConfig = {
+        location: 'localhost',
         port: 8081
     };
 
@@ -19,13 +15,13 @@ var clients = {}, // подключенные клиенты
  * @type {*|Server}
  */
 var webSocketServer = new WebSocketServer.Server(socketConfig);
-console.log("WEBSOCKET: server activated");
+console.log('WS-SERVER: server ready to broadcast. Address: ws://'+socketConfig.location+':'+socketConfig.port);
 
 webSocketServer.on('connection', function(ws) {
 
     var userId = guid();
     clients[userId] = ws;
-    console.log("WEBSOCKET: new user. UserID: " + userId);
+    console.log("WS-SERVER: new user. UserID: " + userId);
 
     wsOnMessage(ws,userId); //Отслеживание новых сообщений
 
@@ -39,7 +35,7 @@ webSocketServer.on('connection', function(ws) {
 function wsOnMessage(ws,userId) {
     ws.on('message', function(message) {
 
-        console.log('WEBSOCKET (in): ' + message);
+        console.log('WS-SERVER (in): ' + message);
 
         wsSend(message); //Отправка сообщение всем или адруссату
     });
@@ -54,7 +50,7 @@ function wsSend(message, userId){
     var sendUserCound = 0;
     if (userId){
         sendUserCound = 1;
-        console.log('WEBSOCKET (out): ' + message);
+        console.log('WS-SERVER (out): ' + message);
         clients[userId].send('Это твое сообщение');
     } else {
         for(var key in clients) {
@@ -62,7 +58,7 @@ function wsSend(message, userId){
             clients[key].send(message);
         }
     }
-    console.log('WEBSOCKET (out): user: ', sendUserCound, 'msg', message);
+    console.log('WS-SERVER (out): user: ', sendUserCound, 'msg', message);
 }
 
 /**
@@ -80,10 +76,10 @@ function wsClose(ws, id) {
  * @returns {string} - user Id
  */
 function guid() {
-    function s4() {
+    function part() {
         return Math.floor((1 + Math.random()) * 0x10000)
             .toString(16)
             .substring(1);
     }
-    return s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4();
+    return part() + '-' + part() + '-' + part() + '-' + part() + '-' + part();
 }

@@ -1,6 +1,9 @@
 /**
  * Created by Ravy on 17.03.2017.
  */
+//DB server: smartf.beget.tech
+//DB name: smartf_rpg
+//DB pass: %c4nHn*f
 'use strict';
 
 var mysql = require('mysql');
@@ -8,10 +11,11 @@ var mysql = require('mysql');
 var dbClient, 
     dbConfig = {
     host: 'smartf.beget.tech',
-    user: 'smartf_rpg',
-    password: '%c4nHn*f',
-    database: 'smartf_rpg'
+    user: 'smartf_construct',
+    password: '*G7w]Q3]',
+    database: 'smartf_construct'
 };
+
 
 handleDisconnect();
 
@@ -25,7 +29,7 @@ function handleDisconnect() {
             console.log('DB-CONNECT: error connection:', err);
             setTimeout(handleDisconnect, 2000);
         } else {
-            console.log('DB-CONNECT: connect successfully');
+            console.log('DB-CONNECT: connected. Address:',dbConfig.host);
         }
     });
 
@@ -33,6 +37,7 @@ function handleDisconnect() {
         if (!err.fatal) {
             console.log('DB-CONNECT: connection lose', err);
         } else if(err.code === 'PROTOCOL_CONNECTION_LOST') {
+            console.log('DB-CONNECT: reconnect...');
             handleDisconnect();
         } else {
             throw err;
@@ -51,4 +56,4 @@ function db(query) {
     });
 }
 
-db('SELECT * FROM users');
+//db('SELECT * FROM users');

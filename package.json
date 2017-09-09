@@ -1,7 +1,12 @@
 {
-  "name": "rpg",
-  "devDependencies": {
-    "node-static": "",
+  "name": "constructor-server",
+  "version": "1.0.0",
+  "description": "Constructor service server",
+  "author": "Andrew Rovniy",
+  "license": "MIT",
+  "dependencies": {
+    "express ": "",
+    "body-parser": "",
     "ws": "",
     "mysql": ""
   }
