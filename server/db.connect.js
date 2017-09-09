@@ -24,6 +24,7 @@ handleDisconnect();
  */
 function handleDisconnect() {
     dbClient = mysql.createConnection(dbConfig);
+    
     dbClient.connect(function(err) {
         if(err) {
             console.log('DB-CONNECT: error connection:', err);
