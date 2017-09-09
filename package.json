@@ -1,0 +1,8 @@
+{
+  "name": "rpg",
+  "devDependencies": {
+    "node-static": "",
+    "ws": "",
+    "mysql": ""
+  }
+}
