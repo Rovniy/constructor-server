@@ -18,6 +18,6 @@
     require(config.routesPath + 'user.js')(app);
 
     var server = app.listen(3000, function () {
-        console.log('HTTP-SERVER: server activated. Address: http://'+config.locate+':'+config.port);
+        console.log('HTTP-SERVER: Server activated. Address: http://'+config.locate+':'+config.port);
     });
 })()

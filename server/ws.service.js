@@ -15,7 +15,7 @@ var clients = {}, // подключенные клиенты
  * @type {*|Server}
  */
 var webSocketServer = new WebSocketServer.Server(socketConfig);
-console.log('WS-SERVER: server ready to broadcast. Address: ws://'+socketConfig.location+':'+socketConfig.port);
+console.log('WS-SERVER: WebSockets ready to broadcast. Address: ws://'+socketConfig.location+':'+socketConfig.port);
 
 webSocketServer.on('connection', function(ws) {
 

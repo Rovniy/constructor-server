@@ -1,60 +1,32 @@
 /**
  * Created by Ravy on 17.03.2017.
  */
-//DB server: smartf.beget.tech
-//DB name: smartf_rpg
-//DB pass: %c4nHn*f
 'use strict';
 
-var mysql = require('mysql');
+var config = {
+    url: 'mongodb://localhost:27017',
+    dbName: 'uspy'
+},
+mongoClient = require("mongodb").MongoClient;
 
-var dbClient, 
-    dbConfig = {
-    host: 'smartf.beget.tech',
-    user: 'smartf_construct',
-    password: '*G7w]Q3]',
-    database: 'smartf_construct'
-};
-
-
-handleDisconnect();
-
-/**
- * Создание подключение к серверу. Переподключение при потере соединения
- */
-function handleDisconnect() {
-    dbClient = mysql.createConnection(dbConfig);
+mongoClient.connect(config.url + '/' + config.dbName, function(err, db){
+    if (db) console.log('DB-SERVER: Mongodb activated. Address: ' + config.url + '. Database: ' + config.dbName);
+    //getItem(db); //Получение списка элементов и поиск по элементам
     
-    dbClient.connect(function(err) {
-        if(err) {
-            console.log('DB-CONNECT: error connection:', err);
-            setTimeout(handleDisconnect, 2000);
-        } else {
-            console.log('DB-CONNECT: connected. Address:',dbConfig.host);
-        }
-    });
-
-    dbClient.on('error', function(err) {
-        if (!err.fatal) {
-            console.log('DB-CONNECT: connection lose', err);
-        } else if(err.code === 'PROTOCOL_CONNECTION_LOST') {
-            console.log('DB-CONNECT: reconnect...');
-            handleDisconnect();
-        } else {
-            throw err;
-        }
-    });
-}
-
+    db.close();
+});
 
 /**
- * Оформление запроса к БД
- * @param query - тело запроса - {@type:SELECT / PUT / UPDATE / DELETE, @field: field name, @from: table name, @if: condition }
+ * Получение списка элементов и поиск по элементам
+ * @param db
  */
-function db(query) {
-    dbClient.query(query, function(error, result, fields){
-        console.log('DB-CONNECT: response: ', result[0]);
+function getItem(db) {
+    db.collection('Users', function(err, collection) {
+        collection.find({'name':'Ravy'}, function(err, cursor) {
+            // Преобразовываем в массив
+            cursor.toArray(function(err, items) {
+                console.log(items)
+            });
+        });
     });
 }
-
-//db('SELECT * FROM users');
