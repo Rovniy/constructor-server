@@ -17,10 +17,11 @@
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use(subdomain('api', router));
 
+
     require(config.routesPath + 'all.js')(app);
     require(config.routesPath + 'user.js')(app);
 
     var server = app.listen(3000, function () {
-        console.log('HTTP-SERVER: Snpm i express-subdomainerver activated. Address: http://'+config.locate+':'+config.port);
+        console.log('HTTP-SERVER: Server activated. API address: http://api.'+config.locate+':'+config.port);
     });
 })();
