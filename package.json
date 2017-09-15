@@ -5,9 +5,10 @@
   "author": "Andrew Rovniy",
   "license": "MIT",
   "dependencies": {
-    "express ": "",
     "body-parser": "",
-    "ws": "",
-    "mongodb": ""
+    "express ": "",
+    "express-subdomain": "^1.0.5",
+    "mongodb": "",
+    "ws": ""
   }
 }
