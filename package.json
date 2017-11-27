@@ -6,9 +6,10 @@
   "license": "MIT",
   "dependencies": {
     "body-parser": "",
-    "express ": "",
+    "express": "^4.16.2",
     "express-subdomain": "^1.0.5",
-    "mongodb": "",
+    "format": "^0.2.2",
+    "mongodb": "^2.2.33",
     "ws": ""
   }
 }

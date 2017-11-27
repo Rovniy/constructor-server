@@ -1,0 +1,9 @@
+{
+  "locate": "localhost",
+  "port": "3000",
+  "routesPath": "../routes/",
+  "url": "mongodb://localhost:27017",
+  "dbName": "uspy",
+  "socketLocation": "localhost",
+  "socketPort": "8081"
+}

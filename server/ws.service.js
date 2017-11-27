@@ -1,25 +1,24 @@
 /**
  * Created by Ravy on 17.03.2017.
  */
-'use strict';
 const WebSocketServer = new require('ws');
 
-var clients = {}, // подключенные клиенты
-    socketConfig = {
-        location: 'localhost',
-        port: 8081
-    };
+let clients = {}, // подключенные клиенты
+    config = require("./config.json");
 
 /**
  * Создание WebSocket сервера
  * @type {*|Server}
  */
-var webSocketServer = new WebSocketServer.Server(socketConfig);
-console.log('WS-SERVER: WebSockets ready to broadcast. Address: ws://'+socketConfig.location+':'+socketConfig.port);
+let webSocketServer = new WebSocketServer.Server({
+    location: config.socketLocation,
+    port: config.socketPort
+});
+console.log('WS-SERVER: WebSockets ready to broadcast. Address: ws://'+config.socketLocation+':'+config.socketPort);
 
 webSocketServer.on('connection', function(ws) {
 
-    var userId = guid();
+    let userId = guid();
     clients[userId] = ws;
     console.log("WS-SERVER: new user. UserID: " + userId);
 
@@ -47,13 +46,13 @@ function wsOnMessage(ws,userId) {
  * @param userId - ID поьзователя
  */
 function wsSend(message, userId){
-    var sendUserCound = 0;
+    let sendUserCound = 0;
     if (userId){
         sendUserCound = 1;
         console.log('WS-SERVER (out): ' + message);
         clients[userId].send('Это твое сообщение');
     } else {
-        for(var key in clients) {
+        for(let key in clients) {
             sendUserCound++;
             clients[key].send(message);
         }

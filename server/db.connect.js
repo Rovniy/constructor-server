@@ -1,26 +1,14 @@
 /**
  * Created by Ravy on 17.03.2017.
  */
-'use strict';
-
-var config = {
-    url: 'mongodb://localhost:27017',
-    dbName: 'uspy'
-},
+let config = require("./config.json"),
     db = undefined,
-    mongoClient = require("mongodb").MongoClient;
+    mongoClient = require("mongodb").MongoClient,
+    format = require('util').format;
 
-mongoClient.connect(config.url + '/' + config.dbName, function(err, database){
-    db = database;
+mongoClient.connect(config.url + '/' + config.dbName, function(err, db){
     if (db) {
-        console.log('DB-SERVER: Mongodb activated. Address: ' + config.url + '. Database: ' + config.dbName);
-        setSingleItem('Users', {name:'Ravy'});
-        
-        var ravy = getSingleItem('Users', {name:'Ravy'});
-        console.log('Ravy',ravy);
-
-        var all = getAllItemsToArray('Users');
-        console.log('all',all);
+        console.info('DB-SERVER: Mongodb activated. Address: ' + config.url + '. Database: ' + config.dbName);
 
         db.close();
     } else {

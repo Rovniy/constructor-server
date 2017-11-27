@@ -1,7 +1,7 @@
 /**
  * Created by Ravy on 09.09.2017.
  */
-var appRouter = function(app) {
+let appRouter = function(app) {
 
     app.get("/", function(req, res) {
         res.send("XPLOIT REST API v1");

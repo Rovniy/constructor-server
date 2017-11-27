@@ -1,7 +1,7 @@
 /**
  * Created by Ravy on 09.09.2017.
  */
-var userAPI = function(app) {
+let userAPI = function(app) {
 
     app.get("/user", function(req, res) {
         res.send("USER API OK");
@@ -9,15 +9,11 @@ var userAPI = function(app) {
     
     app.get("/registration", function(req, res) {
         if (!req.query.username || req.query.password) {
-            return res.send({"status": false, "message": "missing username or username"});
+            return res.send({"status": false, "message": "missing username or password"});
         } else {
-            res.send("USER API OK");
+            res.send("USER REG OK");
         }
-
-        
-        
     });
-    
 };
 
 module.exports = userAPI;
