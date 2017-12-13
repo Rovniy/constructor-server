@@ -13,8 +13,10 @@
       "./mixins"
     ]
   },
-  "user": {
+  "users": {
     "dataSource": "mongodb",
-    "public": true
+    "public": true,
+    "$promise": {},
+    "$resolved": true
   }
 }

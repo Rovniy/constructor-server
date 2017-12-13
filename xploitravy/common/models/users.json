@@ -1,0 +1,48 @@
+{
+  "name": "users",
+  "plural": "users",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "active": {
+      "type": "boolean",
+      "required": true,
+      "comments": "Status for user"
+    },
+    "bitman_api": {
+      "type": "string",
+      "required": true,
+      "comments": "AntPool API key"
+    },
+    "bitman_secret": {
+      "type": "string",
+      "required": true,
+      "comments": "AntPool API secret key"
+    },
+    "id": {
+      "type": "string",
+      "id": true,
+      "required": false,
+      "index": true,
+      "comments": "User ID"
+    },
+    "email": {
+      "type": "string",
+      "id": false,
+      "required": true,
+      "comments": "User's email address"
+    },
+    "password": {
+      "type": "string",
+      "required": true,
+      "comments": "User's custom password"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}
