@@ -9,6 +9,19 @@
   "properties": {
     "id": {
       "type": "number",
+      "id": true,
+      "required": true
+    },
+    "username": {
+      "type": "string",
+      "required": true
+    },
+    "bitman_secret": {
+      "type": "string",
+      "required": true
+    },
+    "bitman_api": {
+      "type": "string",
       "required": true
     }
   },
