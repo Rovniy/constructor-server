@@ -7,21 +7,6 @@
     "validateUpsert": true
   },
   "properties": {
-    "active": {
-      "type": "boolean",
-      "required": true,
-      "comments": "Status for user"
-    },
-    "bitman_api": {
-      "type": "string",
-      "required": true,
-      "comments": "AntPool API key"
-    },
-    "bitman_secret": {
-      "type": "string",
-      "required": true,
-      "comments": "AntPool API secret key"
-    },
     "id": {
       "type": "string",
       "id": true,
@@ -29,16 +14,31 @@
       "index": true,
       "comments": "User ID"
     },
+    "password": {
+      "type": "string",
+      "required": true,
+      "comments": "User's custom password"
+    },
+    "bitman_api": {
+      "type": "string",
+      "required": false,
+      "comments": "AntPool API key"
+    },
+    "bitman_secret": {
+      "type": "string",
+      "required": false,
+      "comments": "AntPool API secret key"
+    },
+    "active": {
+      "type": "boolean",
+      "required": false,
+      "comments": "Status for user"
+    },
     "email": {
       "type": "string",
       "id": false,
       "required": true,
       "comments": "User's email address"
-    },
-    "password": {
-      "type": "string",
-      "required": true,
-      "comments": "User's custom password"
     }
   },
   "validations": [],
