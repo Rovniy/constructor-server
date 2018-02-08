@@ -1,0 +1,16 @@
+{
+  "db": {
+    "name": "db",
+    "connector": "memory"
+  },
+  "localMongoDb": {
+    "host": "localhost",
+    "port": 27017,
+    "url": "",
+    "database": "uspylocal",
+    "password": "",
+    "name": "localMongoDb",
+    "user": "",
+    "connector": "mongodb"
+  }
+}
