@@ -6,9 +6,7 @@
     "node": ">=4"
   },
   "scripts": {
-    "lint": "eslint .",
-    "start": "node .",
-    "posttest": "npm run lint && nsp check"
+    "start": "node ."
   },
   "dependencies": {
     "compression": "^1.0.3",
@@ -19,7 +17,8 @@
     "loopback-component-explorer": "^4.0.0",
     "loopback-connector-mongodb": "^1.18.1",
     "serve-favicon": "^2.0.1",
-    "strong-error-handler": "^2.0.0"
+    "strong-error-handler": "^2.0.0",
+    "ws": "^4.0.0"
   },
   "devDependencies": {
     "eslint": "^3.17.1",
@@ -27,9 +26,9 @@
     "nsp": "^2.1.0"
   },
   "repository": {
-    "type": "",
-    "url": ""
+    "type": "gitHub",
+    "url": "https://github.com/Rovniy/constructor-server.git"
   },
   "license": "UNLICENSED",
-  "description": "uspy"
+  "description": "USPY REST API / WebSockets Server"
 }
