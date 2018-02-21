@@ -3,6 +3,8 @@
 var loopback = require('loopback');
 var boot = require('loopback-boot');
 var WebSocketServer = require('ws');
+var main = require('./main.js'); //Include main script
+
 
 /** SOCKET **/
 var clients = {};
@@ -12,17 +14,17 @@ var socketConfig = {
 
 var app = module.exports = loopback();
 
-app.start = function() {
+app.start = function () {
   // start the web server
 
   /**************************************** ЭКСПЕРИМЕНТАЛЬНАЯ ФУНКЦИЯ ***********************************/
   /**
    * Отслеживание новых сообщений
    */
-  function wsOnMessage(ws,userId) {
-    ws.on('message', function(message) {
+  function wsOnMessage(ws, userId) {
+    ws.on('message', function (message) {
       console.log('WEBSOCKET (in): ' + message.message_type, message);
-      wsSend(message,userId); //Отправка сообщение всем или адресату
+      wsSend(message, userId); //Отправка сообщение всем или адресату
     });
   }
 
@@ -31,9 +33,9 @@ app.start = function() {
    * @param message - тело сообщение
    * @param userId - ID поьзователя
    */
-  function wsSend(message, userId){
+  function wsSend(message, userId) {
     var sendUserCound = 0;
-    if (userId){
+    if (userId) {
       sendUserCound = 1;
       console.log('WEBSOCKET (out): ' + message);
       if (message.message_type === 'PING') {
@@ -45,7 +47,7 @@ app.start = function() {
       }
 
     } else {
-      for(var key in clients) {
+      for (var key in clients) {
         sendUserCound++;
         if (message.message_type === 'PING') {
           clients[key].send({
@@ -63,7 +65,7 @@ app.start = function() {
    * Отработка прерывания WS соединения
    */
   function wsClose(ws, id) {
-    ws.on('close', function(resolve) {
+    ws.on('close', function (resolve) {
       console.log('WEBSOCKET: user connection lose - ' + id, resolve);
       delete clients[id];
     });
@@ -79,13 +81,14 @@ app.start = function() {
         .toString(16)
         .substring(1);
     }
+
     return s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4();
   }
+
   /**************************************** ЭКСПЕРИМЕНТАЛЬНАЯ ФУНКЦИЯ ***********************************/
 
 
-
-  return app.listen(function() {
+  return app.listen(function () {
     app.emit('started');
     var baseUrl = app.get('url').replace(/\/$/, '');
     console.log('WebServer listening at: %s', baseUrl);
@@ -96,11 +99,11 @@ app.start = function() {
     var webSocketServer = new WebSocketServer.Server(socketConfig);
     console.log("WebSockets server listening at: ws://localhost:8081");
 
-    webSocketServer.on('connection', function(ws) {
+    webSocketServer.on('connection', function (ws) {
       var userId = guid();
       clients[userId] = ws;
       console.log("WEBSOCKET: new user. UserID: " + userId);
-      wsOnMessage(ws,userId); //Отслеживание новых сообщений
+      wsOnMessage(ws, userId); //Отслеживание новых сообщений
       wsClose(ws, userId); //Отработка прерывания WS соединения
     });
   });
@@ -108,7 +111,7 @@ app.start = function() {
 
 // Bootstrap the application, configure models, datasources and middleware.
 // Sub-apps like REST API are mounted via boot scripts.
-boot(app, __dirname, function(err) {
+boot(app, __dirname, function (err) {
   if (err) throw err;
 
   // start the server if `$ node server.js`
