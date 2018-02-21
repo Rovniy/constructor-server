@@ -3,7 +3,7 @@
   "owner": "Rovniy Andrew",
   "canvas": {
     "width": 600,
-    "height": 300,
+    "height": 400,
     "background": "rgba(100,100,0,1)"
   },
   "items": [
@@ -14,24 +14,50 @@
       "width": 600,
       "height": 300,
       "opacity": 1,
-      "rotate": 0,
+      "rotation": 0,
       "positionX": 0,
       "positionY": 0,
       "z-index": 1,
       "scale": 1
     },
     {
+      "type": "image",
+      "imageType": "png",
+      "src": "./src/user/blue.png",
+      "width": 60,
+      "height": 60,
+      "opacity": 1,
+      "rotation": 0,
+      "positionX": 400,
+      "positionY": 130,
+      "z-index": 2,
+      "scale": 1
+    },
+    {
       "type": "text",
       "content": "Ровный Андрей",
       "size": 16,
-      "font": "Roboto",
+      "font": "lobster-regular.ttf",
       "color": "rgba(0,0,0,1)",
-      "style": "",
+      "style": "normal",
       "lineHeight": 1,
-      "rotate": 0,
+      "rotation": 0,
       "positionX": 100,
       "positionY": 100,
       "z-index": 2
+    },
+    {
+      "type": "text",
+      "content": "USPY",
+      "size": 16,
+      "font": "lobster-regular.ttf",
+      "color": "rgba(255,0,0,1)",
+      "style": "bold",
+      "lineHeight": 1,
+      "rotation": 0,
+      "positionX": 550,
+      "positionY": 280,
+      "z-index": 4
     }
   ]
 }

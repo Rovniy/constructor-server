@@ -1,9 +1,9 @@
 'use strict';
 
-var Canvas = require('canvas'),
+const {registerFont, Image, createCanvas, Canvas} = require('canvas'),
   fs = require('fs');
 
-var config = {
+let config = {
   context: '2d',
   default: {
     rotate: 0,
@@ -12,57 +12,69 @@ var config = {
 };
 
 /**
- * Сброс настроек курсора
- * @param ctx - контекст отображения
+ * Создание готовой картинки
  */
-function setDefault(ctx) {
-  ctx.rotate(config.default.rotate);
-}
+function drawImage() {
+  let id = require('../test/image.config');
+  let canvas = createCanvas(id.canvas.width, id.canvas.height),
+    ctx = canvas.getContext(config.context),
+    itemIndex = 0,
+    lengthIndexArray = id.items.length;
 
-function drawImage(id) {
-  console.log('рисую....');
-  var Image = Canvas.Image,
-    canvas = new Canvas(id.canvas.width, id.canvas.height),
-    ctx = canvas.getContext(config.context);
-
-  ctx.fillStyle = id.canvas.background; // Цвет background
-
-  id.items.forEach(function (item) {
-    //setDefault(ctx); //Сброс настроек курсора
-    switch (item.type) {
-      case 'image':
-
-        var erase_image = new Image();
-        erase_image.src = item.src;
-        erase_image.onload = function(i)
-        {
-          ctx.drawImage(erase_image, item.positionX, item.positionY, item.width, item.height);
-          console.log('тут изображени',i);
-        };
-        break;
-      case "text":
-        ctx.font = item.size*2 + 'px ' + item.font;
-        ctx.rotate(item.rotate);
-        ctx.fillText(item.content, item.positionX, item.positionY);
-        // ctx.strokeStyle = item.color;
-
-        /*var te = ctx.measureText('Awesome!');
-        ctx.strokeStyle = 'rgba(0,0,0,0.5)';
-        ctx.beginPath();
-        ctx.lineTo(50, 102);
-        ctx.lineTo(50 + te.width, 102);
-        ctx.stroke();*/
-        break;
-      default :
-        console.log('DRAWIMAGE : drawImage() : not found item type');
+  /**
+   * Отрисовка элементов
+   */
+  function createItem() {
+    let item = id.items[itemIndex];
+    if (id.items[itemIndex]) {
+      ctx.rotate(config.default.rotate);
+      switch (item.type) {
+        /********************** ИЗОБРАЖЕНИЕ ********************/
+        case 'image':
+          console.log('нашел изображение');
+          fs.readFile(item.src, function (err, filePath) {
+            if (err) throw err;
+            let img = new Image;
+            img.src = filePath;
+            ctx.rotate(item.rotation * Math.PI / 180);
+            ctx.drawImage(img, item.positionX, item.positionY, item.width, item.height);
+            console.log('Нарисовал изображение');
+            checkCounter();
+          });
+          break;
+        /*********************** ТЕКСТ *****************************/
+        case "text":
+          console.log('нашел текст');
+          let f = registerFont('./src/fonts/'+item.font, {family: 'CurrentFont'});
+          ctx.font = item.style + ' ' + item.size + 'px CurrentFont';
+          ctx.textBaseline = "top";
+          ctx.rotate(item.rotation * Math.PI / 180);
+          ctx.fillStyle = item.color;
+          ctx.fillText(item.content, item.positionX, item.positionY);
+          console.log('Нарисовал текст');
+          f = undefined;
+          checkCounter();
+          break;
+        /************************* НЕНАЙДЕННОЕ **********************/
+        default :
+          console.log('DRAWIMAGE : drawImage() : not found item type');
+          checkCounter();
+      }
     }
-  });
+  }
+  /**
+   * Переход по элементам
+   */
+  function checkCounter() {
+    itemIndex++;
+    if (itemIndex < lengthIndexArray) {
+      createItem();
+    } else {
+      saveFile(canvas, id); //Сохранение полученного изображениея в файл
+    }
+  }
 
-
-
-
-  saveFile(canvas, id); //Сохранение полученного изображениея в файл
-
+  createItem(); //Отрисовка элементов
 }
 
 /**
@@ -71,8 +83,8 @@ function drawImage(id) {
  * @param id - данные JSON-структуры файла
  */
 function saveFile(canvas, id) {
-  var stream = canvas.pngStream(),
-    imagePath = '././src/test.png',
+  let stream = canvas.pngStream(),
+    imagePath = './src/test.png',
     out = fs.createWriteStream(imagePath);
 
   stream.on('data', function (chunk) {

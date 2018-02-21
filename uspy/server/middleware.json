@@ -27,7 +27,7 @@
     "helmet#ieNoOpen": {},
     "helmet#noSniff": {},
     "helmet#noCache": {
-      "enabled": false
+      "enabled": true
     }
   },
   "session": {},
@@ -40,7 +40,24 @@
       ]
     }
   },
-  "files": {},
+  "files": {
+    "loopback#static": [
+      {
+        "name": "src",
+        "paths": [
+          "/src"
+        ],
+        "params": "$!../src"
+      },
+      {
+        "name": "client",
+        "paths": [
+          "/"
+        ],
+        "params": "$!../client"
+      }
+    ]
+  },
   "final": {
     "loopback#urlNotFound": {}
   },

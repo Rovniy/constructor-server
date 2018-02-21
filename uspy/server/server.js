@@ -1,18 +1,24 @@
 'use strict';
 
-var loopback = require('loopback');
-var boot = require('loopback-boot');
-var WebSocketServer = require('ws');
-var main = require('./main.js'); //Include main script
+let loopback = require('loopback');
+let boot = require('loopback-boot');
+let WebSocketServer = require('ws');
+let main = require('./main.js'); //Include main script
+
+/**
+ * TEST
+ * @type {drawImage}
+ */
+let draw = require('./draw-image');
 
 
 /** SOCKET **/
-var clients = {};
-var socketConfig = {
+let clients = {};
+const socketConfig = {
   port: 8081
 };
 
-var app = module.exports = loopback();
+let app = module.exports = loopback();
 
 app.start = function () {
   // start the web server
@@ -23,6 +29,7 @@ app.start = function () {
    */
   function wsOnMessage(ws, userId) {
     ws.on('message', function (message) {
+      draw();
       console.log('WEBSOCKET (in): ' + message.message_type, message);
       wsSend(message, userId); //Отправка сообщение всем или адресату
     });
@@ -34,7 +41,7 @@ app.start = function () {
    * @param userId - ID поьзователя
    */
   function wsSend(message, userId) {
-    var sendUserCound = 0;
+    let sendUserCound = 0;
     if (userId) {
       sendUserCound = 1;
       console.log('WEBSOCKET (out): ' + message);
@@ -47,7 +54,7 @@ app.start = function () {
       }
 
     } else {
-      for (var key in clients) {
+      for (let key in clients) {
         sendUserCound++;
         if (message.message_type === 'PING') {
           clients[key].send({
@@ -90,17 +97,17 @@ app.start = function () {
 
   return app.listen(function () {
     app.emit('started');
-    var baseUrl = app.get('url').replace(/\/$/, '');
+    let baseUrl = app.get('url').replace(/\/$/, '');
     console.log('WebServer listening at: %s', baseUrl);
     if (app.get('loopback-component-explorer')) {
-      var explorerPath = app.get('loopback-component-explorer').mountPath;
+      let explorerPath = app.get('loopback-component-explorer').mountPath;
       console.log('REST API client at: %s%s', baseUrl, explorerPath);
     }
-    var webSocketServer = new WebSocketServer.Server(socketConfig);
+    let webSocketServer = new WebSocketServer.Server(socketConfig);
     console.log("WebSockets server listening at: ws://localhost:8081");
 
     webSocketServer.on('connection', function (ws) {
-      var userId = guid();
+      let userId = guid();
       clients[userId] = ws;
       console.log("WEBSOCKET: new user. UserID: " + userId);
       wsOnMessage(ws, userId); //Отслеживание новых сообщений

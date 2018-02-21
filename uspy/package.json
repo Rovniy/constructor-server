@@ -9,7 +9,7 @@
     "start": "node ."
   },
   "dependencies": {
-    "canvas": "^1.6.9",
+    "canvas": "^2.0.0-alpha.9",
     "compression": "^1.0.3",
     "cors": "^2.5.2",
     "crypto": "^1.0.1",
